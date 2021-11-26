@@ -4,7 +4,8 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+	"build:watch": "parcel watch"
   },
   "devDependencies": {
     "parcel": "^2.0.1"

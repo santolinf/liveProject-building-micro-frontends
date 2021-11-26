@@ -3,15 +3,22 @@
   "version": "0.1.0",
   "scripts": {
     "clean": "git clean -Xfd",
-	"install:bootstrap": "cd bootstrap && npm install",
+    "install:bootstrap": "cd bootstrap && npm install",
     "install:music": "cd music && npm install",
     "install:welcome": "cd music && npm install",
-	"install:all": "npm-run-all install:bootstrap install:music install:welcome",
+    "install:all": "npm-run-all install:bootstrap install:music install:welcome",
+	"build:music": "cd music && npm run build",
+	"build:welcome": "cd welcome && npm run build",
+	"build:bootstrap:watch": "cd bootstrap && npm run build:watch",
     "dev:music": "cd music && npm start",
     "dev:welcome": "cd welcome && npm run serve",
-	"dev:bootstrap": "cd boostrap && npm start"
+	"web-server": "node server",
+    "dev:bootstrap": "npm-run-all build:music build:welcome --parallel build:bootstrap:watch web-server"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
