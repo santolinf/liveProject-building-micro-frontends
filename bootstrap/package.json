@@ -1,11 +1,10 @@
 {
   "name": "bootstrap",
   "version": "0.1.0",
-  "source": "src/index.html",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build",
-	"build:watch": "parcel watch"
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+	"build:watch": "parcel watch index.html"
   },
   "devDependencies": {
     "parcel": "^2.0.1"
