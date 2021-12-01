@@ -13,8 +13,8 @@ app.use('/mfe/welcome/', express.static(welcomePath));
 app.use('/mfe/music/', express.static(musicPath));
 app.use('/', express.static(bootstrapPath));
 
-app.get("*", function(request, response) {
-	response.status(404).send('Page not found!');
+app.all('/*', function(request, response) {
+	response.sendFile('index.html', { root: './bootstrap/dist' });
 });
 
 app.listen(3000, function() {
