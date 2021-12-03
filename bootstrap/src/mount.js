@@ -9,6 +9,9 @@
  * doesn’t reevaluate it. The only way around the problem is to copy the
  * content of the <script> into a brand-new element.
  */
+const mfeNodeClassName = 'MFE';
+const mfeNodeClassSelector = '.' + mfeNodeClassName;
+
 function loadNode(node, parent, document) {
   if ('SCRIPT' === node.tagName) {
     const clonedNode = document.createElement(node.tagName);
@@ -17,13 +20,20 @@ function loadNode(node, parent, document) {
       attribute => clonedNode.setAttribute(attribute.name, attribute.value)
     );
     clonedNode.innerHTML = node.innerHTML;
+    markNode(clonedNode);
 
     parent.appendChild(clonedNode);
     return;
   }
 
   const adoptedNode = document.adoptNode(node);
+  markNode(adoptedNode);
+
   parent.appendChild(adoptedNode);
+}
+
+function markNode(node) {
+  node.classList.add(mfeNodeClassName);
 }
 
 function addBaseTag(microFrontendName) {
@@ -36,10 +46,22 @@ function loadNodes(nodes, parent, document) {
   nodes.forEach(node => loadNode(node, parent, document));
 }
 
-function loadMicroFrontendToCurrentDocument(microFrontendName, microFrontend) {
+function mountMicroFrontendToCurrentDocument(microFrontendName, microFrontend) {
   addBaseTag(microFrontendName);
   loadNodes(microFrontend.querySelectorAll('head > *'), document.head, document);
   loadNodes(microFrontend.querySelectorAll('body > *'), document.body, document);
 }
 
-export default loadMicroFrontendToCurrentDocument;
+function unmountMicroFrontendFromDocument() {
+  // include base element with all marked elements
+  document.querySelectorAll(mfeNodeClassSelector + ', base').forEach(node => {
+    if (node.parentElement) {
+      node.parentElement.removeChild(node);
+    }
+  });
+}
+
+export {
+  mountMicroFrontendToCurrentDocument,
+  unmountMicroFrontendFromDocument
+};

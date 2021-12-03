@@ -5,7 +5,7 @@
     "clean": "git clean -Xfd",
     "install:bootstrap": "cd bootstrap && npm install",
     "install:music": "cd music && npm install",
-    "install:welcome": "cd music && npm install",
+    "install:welcome": "cd welcome && npm install",
     "install:all": "npm-run-all install:bootstrap install:music install:welcome",
 	"build:music": "cd music && npm run build",
 	"build:welcome": "cd welcome && npm run build",
