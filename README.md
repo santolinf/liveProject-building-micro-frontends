@@ -37,3 +37,22 @@ One of Bootstrap’s core tasks: loading a micro frontend into the current page.
 
 >       <base href="/mfe/music/">
 
+## Public API
+A (Boostrap) public API is created and exposed to all Micro Frontends to consume.
+
+The public API is exposed through the Window object at `window.bootstrap`.
+
+### Navigating Between Micro Frontends
+When navigating from one Frontend to another, we need to:
+
+* unmount the current Frontend on the page (remove all relevant nodes)
+* download and mount the new Frontend
+* update the URL on the browser (to reflect the appropriate pathname)
+
+For example, to navigate to the *Music* Micro Frontends use:
+
+    window.boostrap.router.navigateTo('/play')
+
+and to the *Welcome* Micro Frontend use:
+
+    window.boostrap.router.navigateTo('/hello')
