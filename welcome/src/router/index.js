@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Landing from '@/view/Landing';
 import SignIn from '@/view/SignIn';
+import NotFound from '@/view/NotFound';
 
 Vue.use(VueRouter);
 
@@ -10,12 +11,18 @@ const router = new VueRouter({
   base: process.env.VUE_APP_BASE_URL,
   routes: [
     {
+      name: 'SignIn',
+      path: '/signin',
+      component: SignIn
+    },
+    {
+      name: 'Home',
       path: '/',
       component: Landing
     },
     {
-      path: '/signin',
-      component: SignIn
+      path: '*',
+      component: NotFound
     }
   ]
 });

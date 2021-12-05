@@ -1,3 +1,5 @@
+import events, { dispatchEvent } from './event';
+
 /**
  * Migrating nodes from one document to another can be achieved using the
  * <code>Document.adoptNode()</code> method.
@@ -47,18 +49,26 @@ function loadNodes(nodes, parent, document) {
 }
 
 function mountMicroFrontendToCurrentDocument(microFrontendName, microFrontend) {
+  dispatchEvent(events.MICRO_FRONTEND_WILL_MOUNT);
+
   addBaseTag(microFrontendName);
   loadNodes(microFrontend.querySelectorAll('head > *'), document.head, document);
   loadNodes(microFrontend.querySelectorAll('body > *'), document.body, document);
+
+  dispatchEvent(events.MICRO_FRONTEND_DID_MOUNT);
 }
 
 function unmountMicroFrontendFromDocument() {
-  // include base element with all marked elements
+  dispatchEvent(events.MICRO_FRONTEND_WILL_UNMOUNT);
+
+  // include header's base element with other marked elements
   document.querySelectorAll(mfeNodeClassSelector + ', base').forEach(node => {
     if (node.parentElement) {
       node.parentElement.removeChild(node);
     }
   });
+
+  dispatchEvent(events.MICRO_FRONTEND_DID_UNMOUNT);
 }
 
 export {
