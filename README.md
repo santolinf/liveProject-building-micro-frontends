@@ -38,7 +38,7 @@ One of Bootstrap’s core tasks: loading a micro frontend into the current page.
 >       <base href="/mfe/music/">
 
 ## Public API
-A (Boostrap) public API is created and exposed to all Micro Frontends to consume.
+A (Boostrap) public API is created and exposed for all Micro Frontends to consume.
 
 The public API is exposed through the Window object at `window.bootstrap`.
 
@@ -56,3 +56,25 @@ For example, to navigate to the *Music* Micro Frontends use:
 and to the *Welcome* Micro Frontend use:
 
     window.boostrap.router.navigateTo('/hello')
+
+### Micro Frontend Lifecycle Eventing
+From within a Micro Frontend you can register for getting informed of the different stages 
+of the mounting process.
+
+```javascript
+window.document.addEventListener(window.boostrap.eventNames.MICRO_FRONTEND_WILL_MOUNT,
+  () => console.log('micro frontend WILL mount')
+);
+
+window.document.addEventListener(window.boostrap.eventNames.MICRO_FRONTEND_DID_MOUNT,
+  () => console.log('micro frontend DID mount')
+);
+
+window.document.addEventListener(window.boostrap.eventNames.MICRO_FRONTEND_WILL_UNMOUNT,
+  () => console.log('micro frontend WILL unmount')
+);
+
+window.document.addEventListener(window.boostrap.eventNames.MICRO_FRONTEND_DID_UNMOUNT,
+  () => console.log('micro frontend DID unmount')
+);
+```
