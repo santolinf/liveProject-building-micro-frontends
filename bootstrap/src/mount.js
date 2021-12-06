@@ -58,8 +58,8 @@ function mountMicroFrontendToCurrentDocument(microFrontendName, microFrontend) {
   dispatchEvent(events.MICRO_FRONTEND_DID_MOUNT, microFrontendName);
 }
 
-function unmountMicroFrontendFromDocument(microFrontendName) {
-  dispatchEvent(events.MICRO_FRONTEND_WILL_UNMOUNT, microFrontendName);
+function unmountMicroFrontendFromDocument(currentMicroFrontendName) {
+  dispatchEvent(events.MICRO_FRONTEND_WILL_UNMOUNT, currentMicroFrontendName);
 
   // include header's base element with other marked elements
   document.querySelectorAll(mfeNodeClassSelector + ', base').forEach(node => {
@@ -68,7 +68,7 @@ function unmountMicroFrontendFromDocument(microFrontendName) {
     }
   });
 
-  dispatchEvent(events.MICRO_FRONTEND_DID_UNMOUNT, microFrontendName);
+  dispatchEvent(events.MICRO_FRONTEND_DID_UNMOUNT, currentMicroFrontendName);
 }
 
 export {
