@@ -1,13 +1,16 @@
-const microFrontends = [
-  {
+const welcomeMicroFrontend = {
     pathnameId: 'hello',
-    name: 'welcome'
+    pathname: '/hello',
+    name: 'welcome',
+    restricted: false
   },
-  {
+  musicMicroFrontend = {
     pathnameId: 'play',
-    name: 'music'
-  }
-];
+    pathname: '/play',
+    name: 'music',
+    restricted: true
+  },
+  microFrontends = [welcomeMicroFrontend, musicMicroFrontend];
 
 function parsePathnameId(pathname) {
   const pathSegmentsFound = /\/?(\w+)\/?.*/.exec(pathname??'');
@@ -15,11 +18,13 @@ function parsePathnameId(pathname) {
 }
 
 // eg, /play -> music
-function mapPathnameToMfeName(pathname) {
+function mapPathnameToMicroFrontend(pathname) {
   const pathnameId = parsePathnameId(pathname);
-  const microFrontend = microFrontends.find(mfe => mfe.pathnameId === pathnameId);
-
-  return microFrontend?microFrontend.name:undefined;
+  return microFrontends.find(mfe => mfe.pathnameId === pathnameId);
 }
 
-export default mapPathnameToMfeName;
+export {
+  welcomeMicroFrontend,
+  musicMicroFrontend,
+  mapPathnameToMicroFrontend
+};

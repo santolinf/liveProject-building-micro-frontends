@@ -6,6 +6,8 @@ export function login(formData = {}, onSuccess = () => null, onError = () => nul
   post(process.env.VUE_APP_LOGIN_URL, formData)
     .then(response => {
       console.log(response.data);
+      window.boostrap.auth.setToken(response.data.token);
+      window.boostrap.router.init(true);
       onSuccess(response.data);
     })
     .catch(error => onError(error));

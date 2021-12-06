@@ -1,6 +1,10 @@
 
-export function dispatchEvent(eventType) {
-  const event = new Event(eventType);
+export function dispatchEvent(eventName, microFrontendName) {
+  const event = new CustomEvent(eventName, {
+    details: {
+      microFrontendName: microFrontendName
+    }
+  });
 
   window.document.dispatchEvent(event);
 }

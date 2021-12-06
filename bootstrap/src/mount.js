@@ -49,17 +49,17 @@ function loadNodes(nodes, parent, document) {
 }
 
 function mountMicroFrontendToCurrentDocument(microFrontendName, microFrontend) {
-  dispatchEvent(events.MICRO_FRONTEND_WILL_MOUNT);
+  dispatchEvent(events.MICRO_FRONTEND_WILL_MOUNT, microFrontendName);
 
   addBaseTag(microFrontendName);
   loadNodes(microFrontend.querySelectorAll('head > *'), document.head, document);
   loadNodes(microFrontend.querySelectorAll('body > *'), document.body, document);
 
-  dispatchEvent(events.MICRO_FRONTEND_DID_MOUNT);
+  dispatchEvent(events.MICRO_FRONTEND_DID_MOUNT, microFrontendName);
 }
 
-function unmountMicroFrontendFromDocument() {
-  dispatchEvent(events.MICRO_FRONTEND_WILL_UNMOUNT);
+function unmountMicroFrontendFromDocument(currentMicroFrontendName) {
+  dispatchEvent(events.MICRO_FRONTEND_WILL_UNMOUNT, currentMicroFrontendName);
 
   // include header's base element with other marked elements
   document.querySelectorAll(mfeNodeClassSelector + ', base').forEach(node => {
@@ -68,7 +68,7 @@ function unmountMicroFrontendFromDocument() {
     }
   });
 
-  dispatchEvent(events.MICRO_FRONTEND_DID_UNMOUNT);
+  dispatchEvent(events.MICRO_FRONTEND_DID_UNMOUNT, currentMicroFrontendName);
 }
 
 export {

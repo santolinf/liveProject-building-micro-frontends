@@ -63,7 +63,7 @@ export default {
       this.message = '';
       login(this.form,
           () => goToMusicApp(),
-          (error) => {
+          error => {
             console.log(error);
             this.form.username = '';
             this.form.password = '';

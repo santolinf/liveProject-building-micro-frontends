@@ -7,6 +7,7 @@
 	"build:watch": "parcel watch index.html"
   },
   "devDependencies": {
-    "parcel": "^2.0.1"
+    "parcel": "^2.0.1",
+    "dotenv": "^10.0.0"
   }
 }
