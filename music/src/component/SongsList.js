@@ -1,13 +1,5 @@
-import { useEffect, useState } from 'react';
-import { getSongList } from '../services';
 
-export default function SongList () {
-  const [songs, setSongs] = useState([]);
-
-  useEffect(() => {
-    getSongList().then(songs => setSongs(songs)).catch(error => console.log(error));
-  }, []);
-
+export default function SongsList ({ songs = [] }) {
   return (
     <div className="grid-container row">
       { songs.map((song, index) => (
