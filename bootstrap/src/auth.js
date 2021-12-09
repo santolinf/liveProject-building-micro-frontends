@@ -6,6 +6,7 @@ let isUserAuthenticated = false;
 function setToken(token) {
   if (!token) {
     window.localStorage.removeItem(TOKEN_KEY);
+    isUserAuthenticated = false;
     return;
   }
 

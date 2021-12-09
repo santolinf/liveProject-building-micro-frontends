@@ -52,6 +52,11 @@ function navigateTo(pathname) {
   loadMicroFrontend(microFrontend.name);
 }
 
+function restartApp() {
+  navigateTo(welcomeMicroFrontend.pathname);
+}
+
 export {
-  navigateTo
+  navigateTo,
+  restartApp
 }
