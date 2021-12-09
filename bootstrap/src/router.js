@@ -1,16 +1,12 @@
 import { mountMicroFrontendToCurrentDocument, unmountMicroFrontendFromDocument } from './mount';
 import { mapPathnameToMicroFrontend, welcomeMicroFrontend, musicMicroFrontend } from './config';
+import { isUserAuthenticated }  from './auth';
 import download from './download';
 
-let userAuthenticated = false;
 const navigationHistory = []; // keep track of mfe mounted
 
-function init(authenticated = false) {
-  userAuthenticated = authenticated;
-}
-
 function determineMicroFrontendToGoNext(pathname) {
-  if (userAuthenticated) {  // ignore requested pathname
+  if (isUserAuthenticated) {  // ignore requested pathname
     console.log('user is authenticated, go to music frontend');
     return musicMicroFrontend;
   }
@@ -33,19 +29,25 @@ function determineMicroFrontendToGoNext(pathname) {
 function loadMicroFrontend(microFrontendName) {
   download(microFrontendName)
     .then(microFrontend => mountMicroFrontendToCurrentDocument(microFrontendName, microFrontend))
-    .catch(error => new Error('Cannot mount Micro Frontend: ' + error));
+    .catch(error => new Error('Cannot mount frontend: ' + error));
 }
 
 function navigateTo(pathname) {
   const microFrontend = determineMicroFrontendToGoNext(pathname);
 
   if (!microFrontend.name) {
-    throw new Error('Micro Frontend not found for path: ' + microFrontend.pathname);
+    throw new Error('Frontend not found for path: ' + microFrontend.pathname);
   }
 
   // if not the first mfe, unmount the nodes
   if (navigationHistory.length > 0) {
     const currentMicroFrontend = mapPathnameToMicroFrontend(navigationHistory[navigationHistory.length - 1]);
+    if (microFrontend.pathname === currentMicroFrontend.pathname) {
+      // changing urls between the same frontends, reset browser url and then do nothing
+      window.history.pushState({}, '', currentMicroFrontend.pathname);
+      return;
+    }
+
     unmountMicroFrontendFromDocument(currentMicroFrontend.name);
   }
 
@@ -56,7 +58,11 @@ function navigateTo(pathname) {
   loadMicroFrontend(microFrontend.name);
 }
 
-export default {
-  init,
-  navigateTo
+function restartApp() {
+  navigateTo(welcomeMicroFrontend.pathname);
+}
+
+export {
+  navigateTo,
+  restartApp
 }

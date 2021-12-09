@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import { login, goToMusicApp } from '../services';
+import { login } from '../services';
+import { goToMusicFrontend } from '../bootstrap';
 
 export default {
   name: 'SignIn',
@@ -62,7 +63,7 @@ export default {
       e.preventDefault();
       this.message = '';
       login(this.form,
-          () => goToMusicApp(),
+          () => goToMusicFrontend(),
           error => {
             console.log(error);
             this.form.username = '';

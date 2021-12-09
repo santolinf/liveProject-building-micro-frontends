@@ -1,6 +1,6 @@
-import router from './router';
+import * as router from './router';
 import eventNames from './event';
-import auth from './auth';
+import * as auth from './auth';
 
 // load env variables
 require('dotenv').config();
@@ -12,23 +12,11 @@ window.boostrap = {
   auth
 }
 
-function validateToken() {
-  const token = auth.getToken();
-  if (!token) {
-    return Promise.resolve(false);
-  }
-
-  return fetch(process.env.TOKEN_VALIDATE_URL, {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${token}` }
-  })
-  .then(response => response.ok)
-  .catch(() => false);
-}
-
 // load page
-validateToken()
-  .then(authenticated => {
-    router.init(authenticated);
-    router.navigateTo(window.location.pathname);
-  });
+auth.validateToken()
+  .then(() => router.navigateTo(window.location.pathname));
+
+// handle Back and Forward browser buttons
+window.onpopstate = (e) => {
+  router.navigateTo(window.location.pathname);
+}
