@@ -15,3 +15,8 @@ window.boostrap = {
 // load page
 auth.validateToken()
   .then(() => router.navigateTo(window.location.pathname));
+
+// handle Back and Forward browser buttons
+window.onpopstate = (e) => {
+  router.navigateTo(window.location.pathname);
+}

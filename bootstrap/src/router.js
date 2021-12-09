@@ -42,6 +42,12 @@ function navigateTo(pathname) {
   // if not the first mfe, unmount the nodes
   if (navigationHistory.length > 0) {
     const currentMicroFrontend = mapPathnameToMicroFrontend(navigationHistory[navigationHistory.length - 1]);
+    if (microFrontend.pathname === currentMicroFrontend.pathname) {
+      // changing urls between the same frontends, reset browser url and then do nothing
+      window.history.pushState({}, '', currentMicroFrontend.pathname);
+      return;
+    }
+
     unmountMicroFrontendFromDocument(currentMicroFrontend.name);
   }
 
