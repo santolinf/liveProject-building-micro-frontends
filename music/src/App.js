@@ -1,8 +1,18 @@
+import { useEffect, useState } from 'react';
 import './App.css';
 import { signOut } from './boostrap';
-import SongList from './component/SongList';
+import { getSongList } from './services';
+import SongsList from './component/SongsList';
 
 function App() {
+  const [songs, setSongs] = useState([]);
+
+  useEffect(() => {
+    getSongList()
+      .then(songs => setSongs(songs))
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -12,7 +22,7 @@ function App() {
         <div>
           <button type="button" className="float-end" onClick={signOut}>Sign out</button>
         </div>
-        <SongList />
+        <SongsList songs={songs} />
       </main>
     </div>
   );
